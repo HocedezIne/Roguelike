@@ -26,12 +26,17 @@ public:
 	//-------------------------------------------------
 	// Member functions						
 	//-------------------------------------------------
+	int GetColumns() { return m_Columns; };
+	int GetRows() { return m_Rows; };
+	auto GetGrid() { return m_Grid; };
+
+	void GenerateMaze();
+
 
 private: 
 	//-------------------------------------------------
 	// Private member functions								
 	//-------------------------------------------------
-	void GenerateMaze();
 
 	int ConvertToIndex(int column, int row);
 	int ConvertToIndex(std::pair<int, int> coord) { return ConvertToIndex(coord.first, coord.second); };

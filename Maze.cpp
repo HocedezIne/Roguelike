@@ -16,7 +16,6 @@ Maze::Maze()
 	/// </summary>
 
 	m_Grid = new float[m_Columns * m_Rows] {}; // fill with 0 to indicate wall
-	//std::fill_n(m_Grid, m_Columns * m_Rows, 0);
 
 	GenerateMaze();
 }
@@ -32,6 +31,9 @@ Maze::~Maze()
 
 void Maze::GenerateMaze()
 {
+	// reseting grid
+	std::fill_n(m_Grid, m_Columns * m_Rows, 0);
+
 	// pick a random location in maze to use as the start of the path
 	m_StartLoc = std::make_pair<int, int>(rand() % (m_Columns-2)+1, rand() % (m_Rows-2)+1);
 	m_Grid[ConvertToIndex(m_StartLoc)] = 1;
@@ -44,9 +46,26 @@ void Maze::GenerateMaze()
 		auto cell = m_CellsToCheck.front();
 		m_CellsToCheck.pop();
 
+		if (cell.first == 0 || cell.first == m_Columns - 1 || cell.second == 0 || cell.second == m_Rows - 1) continue; // early exit if cell is on edge of maze
+
+		// check how many neighbours are cell path
+		int neighbours{};
+		if (m_Grid[ConvertToIndex(cell.first - 1, cell.second)] == 1) ++neighbours;
+		if (m_Grid[ConvertToIndex(cell.first, cell.second + 1)] == 1) ++neighbours;
+		if (m_Grid[ConvertToIndex(cell.first + 1, cell.second)] == 1) ++neighbours;
+		if (m_Grid[ConvertToIndex(cell.first, cell.second - 1)] == 1) ++neighbours;
+
+		if (neighbours < 2)
+		{
+			m_Grid[ConvertToIndex(cell)] = 1;
+			AddSurroundingCellsToQueue(cell);
+		}
+
 		/// <summary>
 		/// PSEUDO CODE TRYING TO FIGURE OUT THE OLD PYTHON LOOP
-		/// 
+		/// if cell is on edge -> go to next cell
+		/// check how many neighbours of cell are path
+		/// if neighbours < 2 -> cell becomes path -> add neighbours to list 
 		/// </summary>
 	}
 }
