@@ -7,7 +7,6 @@
 // Include Files
 //-----------------------------------------------------------------
 #include "Roguelike.h"						
-#include "Maze.h"
 
 //-----------------------------------------------------------------
 // Roguelike methods																				
@@ -48,20 +47,32 @@ void Roguelike::Start()
 {
 	// Insert the code that needs to be executed at the start of the game
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
-
-	Maze m{};
-
-	std::cout << "wow";
+	m_Maze.GenerateMaze();
 }
 
 void Roguelike::End()
 {
 	// Insert the code that needs to be executed at the closing of the game
+	//delete m_pMaze;
 }
 
 void Roguelike::Paint(RECT rect)
 {
 	// Insert paint code 
+	GAME_ENGINE->SetColor(RGB(255, 255, 255));
+
+	int x{ GAME_ENGINE->GetWidth() / 2 - (m_Maze.GetColumns() / 2) * m_MazeCellSize };
+	int y{ GAME_ENGINE->GetHeight() / 2 - (m_Maze.GetRows() / 2) * m_MazeCellSize };
+
+	for (int rowidx{}; rowidx < m_Maze.GetRows(); ++rowidx)
+	{
+		for (int colidx{}; colidx < m_Maze.GetColumns(); ++colidx)
+		{
+			GAME_ENGINE->DrawRect(x + m_MazeCellSize * colidx, y + m_MazeCellSize * rowidx, m_MazeCellSize, m_MazeCellSize);
+
+			if(m_Maze.GetGridValue(colidx,rowidx) == 1) GAME_ENGINE->FillRect(x + m_MazeCellSize * colidx, y + m_MazeCellSize * rowidx, m_MazeCellSize, m_MazeCellSize);
+		}
+	}
 }
 
 void Roguelike::Tick()

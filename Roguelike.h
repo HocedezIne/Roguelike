@@ -13,12 +13,14 @@
 #include "GameEngine.h"
 #include "AbstractGame.h"
 
+#include "Maze.h"
+
 //-----------------------------------------------------------------
 // Roguelike Class																
 //-----------------------------------------------------------------
 class Roguelike : public AbstractGame, public Callable
 {
-public:				
+public:
 	//---------------------------
 	// Constructor(s) and Destructor
 	//---------------------------
@@ -47,13 +49,13 @@ public:
 	void MouseMove(int x, int y, WPARAM wParam) override;
 	void CheckKeyboard() override;
 	void KeyPressed(TCHAR cKey) override;
-	
+
 	void CallAction(Caller* callerPtr) override;
 
 private:
 	// -------------------------
 	// Datamembers
 	// -------------------------
-
-
+	Maze m_Maze{};
+	int m_MazeCellSize{ 30 };
 };

@@ -29,6 +29,7 @@ public:
 	int GetColumns() { return m_Columns; };
 	int GetRows() { return m_Rows; };
 	auto GetGrid() { return m_Grid; };
+	int GetGridValue(int column, int row) { return m_Grid[ConvertToIndex(column, row)]; };
 
 	void GenerateMaze();
 
@@ -47,7 +48,7 @@ private:
 	//-------------------------------------------------
 	// Datamembers								
 	//-------------------------------------------------
-	const int m_Columns{ 10 };
+	const int m_Columns{ 20 };
 	const int m_Rows{ 20 };
 	float* m_Grid{};
 	std::queue<std::pair<int,int>> m_CellsToCheck{};
