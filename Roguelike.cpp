@@ -47,7 +47,17 @@ void Roguelike::Start()
 {
 	// Insert the code that needs to be executed at the start of the game
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
-	m_Maze.GenerateMaze();
+
+
+	try {
+		m_Dungeon = new Dungeon{ /*GAME_ENGINE->GetWidth()*/240, /*GAME_ENGINE->GetHeight()*/70, 20, 40};
+	}
+	catch (const IncorrectInput& e)
+	{
+		m_ErrorMsg = e.GetExceptionMessage();
+	}
+
+	//m_Maze.GenerateMaze();
 }
 
 void Roguelike::End()
@@ -58,21 +68,23 @@ void Roguelike::End()
 
 void Roguelike::Paint(RECT rect)
 {
-	// Insert paint code 
+	GAME_ENGINE->SetColor(RGB(255, 0, 0));
+	GAME_ENGINE->DrawString(m_ErrorMsg.c_str(), 50, 50);
+
+
 	GAME_ENGINE->SetColor(RGB(255, 255, 255));
+	PaintDungeon(m_Dungeon->GetBSP());
 
-	int x{ GAME_ENGINE->GetWidth() / 2 - (m_Maze.GetColumns() / 2) * m_MazeCellSize };
-	int y{ GAME_ENGINE->GetHeight() / 2 - (m_Maze.GetRows() / 2) * m_MazeCellSize };
-
-	for (int rowidx{}; rowidx < m_Maze.GetRows(); ++rowidx)
-	{
-		for (int colidx{}; colidx < m_Maze.GetColumns(); ++colidx)
-		{
-			GAME_ENGINE->DrawRect(x + m_MazeCellSize * colidx, y + m_MazeCellSize * rowidx, m_MazeCellSize, m_MazeCellSize);
-
-			if(m_Maze.GetGridValue(colidx,rowidx) == 1) GAME_ENGINE->FillRect(x + m_MazeCellSize * colidx, y + m_MazeCellSize * rowidx, m_MazeCellSize, m_MazeCellSize);
-		}
-	}
+	//int x{ GAME_ENGINE->GetWidth() / 2 - (m_Maze.GetColumns() / 2) * m_MazeCellSize };
+	//int y{ GAME_ENGINE->GetHeight() / 2 - (m_Maze.GetRows() / 2) * m_MazeCellSize };
+	//for (int rowidx{}; rowidx < m_Maze.GetRows(); ++rowidx)
+	//{
+	//	for (int colidx{}; colidx < m_Maze.GetColumns(); ++colidx)
+	//	{
+	//		GAME_ENGINE->DrawRect(x + m_MazeCellSize * colidx, y + m_MazeCellSize * rowidx, m_MazeCellSize, m_MazeCellSize);
+	//	if(m_Maze.GetGridValue(colidx,rowidx) == 1) GAME_ENGINE->FillRect(x + m_MazeCellSize * colidx, y + m_MazeCellSize * rowidx, m_MazeCellSize, m_MazeCellSize);
+	//	}
+	//}
 }
 
 void Roguelike::Tick()
@@ -164,6 +176,21 @@ void Roguelike::KeyPressed(TCHAR cKey)
 void Roguelike::CallAction(Caller* callerPtr)
 {
 	// Insert the code that needs to be executed when a Caller has to perform an action
+}
+
+void Roguelike::PaintDungeon(Node* node)
+{
+	if (node)
+	{
+		if (node->hasChild == true) {
+			PaintDungeon(node->left);
+			PaintDungeon(node->right);
+		}
+		else
+		{
+			GAME_ENGINE->DrawRect(node->topLeft.first, node->topLeft.second, node->dimension.first, node->dimension.second);
+		}
+	}
 }
 
 

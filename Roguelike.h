@@ -14,6 +14,7 @@
 #include "AbstractGame.h"
 
 #include "Maze.h"
+#include "Dungeon.h"
 
 //-----------------------------------------------------------------
 // Roguelike Class																
@@ -53,9 +54,18 @@ public:
 	void CallAction(Caller* callerPtr) override;
 
 private:
+	//---------------------------
+	// Helper Methods
+	//---------------------------
+	void PaintDungeon(Node* node);
+
 	// -------------------------
 	// Datamembers
 	// -------------------------
+	std::wstring m_ErrorMsg{};
+
 	Maze m_Maze{};
 	int m_MazeCellSize{ 30 };
+
+	Dungeon* m_Dungeon{};
 };
