@@ -18,6 +18,13 @@ struct Node {
 	std::pair<int, int> topLeft{};
 };
 
+struct Room {
+	int x{};
+	int y{};
+	int width{};
+	int height{};
+};
+
 //-----------------------------------------------------
 // Exception Class
 //-----------------------------------------------------
@@ -50,6 +57,7 @@ public:
 	// Member functions						
 	//-------------------------------------------------
 	Node* GetBSP() const { return m_BSPTree; };
+	std::vector<Room> GetRooms() const { return m_Rooms; };
 
 private: 
 	//-------------------------------------------------
@@ -57,10 +65,13 @@ private:
 	//-------------------------------------------------
 	Node* CreateBSPTree(const int _width, const int _height, const std::pair<int, int> _topLeft = {});
 
+	void CreateRooms(Node* node);
+
 	//-------------------------------------------------
 	// Datamembers								
 	//-------------------------------------------------
 	Node* m_BSPTree{};
+	std::vector<Room> m_Rooms{};
 
 	const int m_TotalWidth;
 	const int m_TotalHeight;

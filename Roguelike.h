@@ -67,5 +67,5 @@ private:
 	Maze m_Maze{};
 	int m_MazeCellSize{ 30 };
 
-	Dungeon* m_Dungeon{};
+	Dungeon* m_pDungeon{};
 };

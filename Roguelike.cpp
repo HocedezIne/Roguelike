@@ -50,7 +50,7 @@ void Roguelike::Start()
 
 
 	try {
-		m_Dungeon = new Dungeon{ /*GAME_ENGINE->GetWidth()*/240, /*GAME_ENGINE->GetHeight()*/70, 20, 40};
+		m_pDungeon = new Dungeon{ /*GAME_ENGINE->GetWidth()*/500, /*GAME_ENGINE->GetHeight()*/500, 100, 400};
 	}
 	catch (const IncorrectInput& e)
 	{
@@ -63,7 +63,7 @@ void Roguelike::Start()
 void Roguelike::End()
 {
 	// Insert the code that needs to be executed at the closing of the game
-	//delete m_pMaze;
+	delete m_pDungeon;
 }
 
 void Roguelike::Paint(RECT rect)
@@ -73,7 +73,13 @@ void Roguelike::Paint(RECT rect)
 
 
 	GAME_ENGINE->SetColor(RGB(255, 255, 255));
-	PaintDungeon(m_Dungeon->GetBSP());
+	PaintDungeon(m_pDungeon->GetBSP());
+
+
+	for (auto& room : m_pDungeon->GetRooms())
+	{
+		GAME_ENGINE->FillRect(room.x, room.y, room.width, room.height);
+	}
 
 	//int x{ GAME_ENGINE->GetWidth() / 2 - (m_Maze.GetColumns() / 2) * m_MazeCellSize };
 	//int y{ GAME_ENGINE->GetHeight() / 2 - (m_Maze.GetRows() / 2) * m_MazeCellSize };
@@ -109,7 +115,6 @@ void Roguelike::MouseButtonAction(bool isLeft, bool isDown, int x, int y, WPARAM
 	}
 	*/
 }
-
 
 void Roguelike::MouseWheelAction(int x, int y, int distance, WPARAM wParam)
 {	
