@@ -97,9 +97,9 @@ void Dungeon::CreateRooms(Node* node)
 		else
 		{
 			int x{}, y{};
-			if ((node->dimension.first - m_MinRoomSize) > 0) x = rand() % (node->dimension.first - m_MinRoomSize) + node->topLeft.first;
-			if ((node->dimension.second - m_MinRoomSize) > 0) y = rand() % (node->dimension.second - m_MinRoomSize) + node->topLeft.second;
-			m_Rooms.emplace_back(x, y, rand() % (node->dimension.first - x - node->topLeft.first), rand() % (node->dimension.first - y - node->topLeft.first));
+			if ((node->dimension.first - m_MinRoomSize) > 0) x = rand() % (node->dimension.first - m_MinRoomSize);
+			if ((node->dimension.second - m_MinRoomSize) > 0) y = rand() % (node->dimension.second - m_MinRoomSize);
+			m_Rooms.emplace_back(x + node->topLeft.first, y + node->topLeft.second, std::max(rand() % (node->dimension.first - x), m_MinRoomSize), std::max(rand() % (node->dimension.second - y), m_MinRoomSize));
 		}
 	}
 }

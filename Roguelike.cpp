@@ -50,7 +50,7 @@ void Roguelike::Start()
 
 
 	try {
-		m_pDungeon = new Dungeon{ /*GAME_ENGINE->GetWidth()*/500, /*GAME_ENGINE->GetHeight()*/500, 100, 400};
+		m_pDungeon = new Dungeon{ /*GAME_ENGINE->GetWidth()*/1000, /*GAME_ENGINE->GetHeight()*/800, 75, 250};
 	}
 	catch (const IncorrectInput& e)
 	{
