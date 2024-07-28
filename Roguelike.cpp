@@ -46,11 +46,11 @@ void Roguelike::Initialize(HINSTANCE hInstance)
 void Roguelike::Start()
 {
 	// Insert the code that needs to be executed at the start of the game
-	std::srand(static_cast<unsigned int>(std::time(nullptr)));
+	//std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
 
 	try {
-		m_pDungeon = new Dungeon{ /*GAME_ENGINE->GetWidth()*/1000, /*GAME_ENGINE->GetHeight()*/800, 75, 250};
+		m_pDungeon = new Dungeon{ /*GAME_ENGINE->GetWidth()*/500, /*GAME_ENGINE->GetHeight()*/500, 100, 300, 15};
 	}
 	catch (const IncorrectInput& e)
 	{
@@ -73,13 +73,19 @@ void Roguelike::Paint(RECT rect)
 
 
 	GAME_ENGINE->SetColor(RGB(255, 255, 255));
-	PaintDungeon(m_pDungeon->GetBSP());
-
-
 	for (auto& room : m_pDungeon->GetRooms())
 	{
-		GAME_ENGINE->FillRect(room.x, room.y, room.width, room.height);
+		GAME_ENGINE->FillRect(room->x, room->y, room->width, room->height);
 	}
+
+	GAME_ENGINE->SetColor(RGB(150, 150, 150));
+	for (auto& corr : m_pDungeon->GetCorridors())
+	{
+		GAME_ENGINE->FillRect(corr.x, corr.y, corr.width, corr.height);
+	}
+
+	GAME_ENGINE->SetColor(RGB(150, 0, 0));
+	//PaintDungeon(m_pDungeon->GetBSP());
 
 	//int x{ GAME_ENGINE->GetWidth() / 2 - (m_Maze.GetColumns() / 2) * m_MazeCellSize };
 	//int y{ GAME_ENGINE->GetHeight() / 2 - (m_Maze.GetRows() / 2) * m_MazeCellSize };

@@ -64,8 +64,5 @@ private:
 	// -------------------------
 	std::wstring m_ErrorMsg{};
 
-	Maze m_Maze{};
-	int m_MazeCellSize{ 30 };
-
 	Dungeon* m_pDungeon{};
 };
